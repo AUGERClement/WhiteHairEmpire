@@ -1,0 +1,116 @@
+[gd_scene load_steps=16 format=3 uid="uid://cu1dnkioxi4ru"]
+
+[ext_resource type="Script" path="res://Slime.cs" id="1_oqsp1"]
+[ext_resource type="Texture2D" uid="uid://qb0x2qj2p3sh" path="res://art/Ninja Adventure/Actor/Monsters/Slime/Slime.png" id="1_wnn4n"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wh0sy"]
+atlas = ExtResource("1_wnn4n")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nr6c1"]
+atlas = ExtResource("1_wnn4n")
+region = Rect2(0, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4enmm"]
+atlas = ExtResource("1_wnn4n")
+region = Rect2(0, 32, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5q4bp"]
+atlas = ExtResource("1_wnn4n")
+region = Rect2(0, 48, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jac17"]
+atlas = ExtResource("1_wnn4n")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qesp7"]
+atlas = ExtResource("1_wnn4n")
+region = Rect2(32, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ln8hg"]
+atlas = ExtResource("1_wnn4n")
+region = Rect2(32, 32, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_iu8we"]
+atlas = ExtResource("1_wnn4n")
+region = Rect2(32, 48, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lm21h"]
+atlas = ExtResource("1_wnn4n")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j7haa"]
+atlas = ExtResource("1_wnn4n")
+region = Rect2(16, 16, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kcw6m"]
+atlas = ExtResource("1_wnn4n")
+region = Rect2(16, 32, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g2t34"]
+atlas = ExtResource("1_wnn4n")
+region = Rect2(16, 48, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_fxmks"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wh0sy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nr6c1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4enmm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5q4bp")
+}],
+"loop": true,
+"name": &"walk_down",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jac17")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qesp7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ln8hg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_iu8we")
+}],
+"loop": true,
+"name": &"walk_left",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lm21h")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_j7haa")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kcw6m")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g2t34")
+}],
+"loop": true,
+"name": &"walk_up",
+"speed": 5.0
+}]
+
+[node name="Slime" type="CharacterBody2D"]
+script = ExtResource("1_oqsp1")
+speed = 20
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -8)
+sprite_frames = SubResource("SpriteFrames_fxmks")
+animation = &"walk_left"
+frame_progress = 0.302357
