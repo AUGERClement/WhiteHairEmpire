@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://cd3mur1b6e80h"
+path="res://.godot/imported/Hit2.wav-b83c790133799cbe9b322a89a63ba69c.sample"
+
+[deps]
+
+source_file="res://art/Ninja Adventure/Sounds/Game/Hit2.wav"
+dest_files=["res://.godot/imported/Hit2.wav-b83c790133799cbe9b322a89a63ba69c.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0

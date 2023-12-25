@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://c0fjdmoas6g21"
+path="res://.godot/imported/Strange.wav-3a38a793603395a5af4c80a3976d249b.sample"
+
+[deps]
+
+source_file="res://art/Ninja Adventure/Sounds/Game/Strange.wav"
+dest_files=["res://.godot/imported/Strange.wav-3a38a793603395a5af4c80a3976d249b.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=0
