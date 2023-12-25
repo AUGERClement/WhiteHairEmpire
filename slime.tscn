@@ -113,4 +113,4 @@ speed = 20
 position = Vector2(0, -8)
 sprite_frames = SubResource("SpriteFrames_fxmks")
 animation = &"walk_left"
-frame_progress = 0.302357
+frame_progress = 0.462175

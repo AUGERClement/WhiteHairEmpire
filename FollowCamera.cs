@@ -11,9 +11,9 @@ public partial class FollowCamera : Camera2D
 		
 		Rect2I mapRect = tileMap.GetUsedRect();
 		int tileSize = tileMap.RenderingQuadrantSize;
-		GD.Print(tileSize);
+		//GD.Print(tileSize);
 		Vector2 worldSizePixel = mapRect.Size * tileSize;
-		GD.Print(worldSizePixel);
+		//GD.Print(worldSizePixel);
 		LimitRight = (int)worldSizePixel.X;
 		LimitBottom = (int)worldSizePixel.Y;
 		

@@ -7,6 +7,9 @@ public partial class Slime : CharacterBody2D
 
     [Export]
     private double limit {get; set; } = 0.5;
+
+    [Export]
+    private Marker2D endPoint {get; set; }
     private AnimatedSprite2D animations;
 
     private Vector2 startPosition;
@@ -16,7 +19,10 @@ public partial class Slime : CharacterBody2D
         animations = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
 
 		startPosition = Position;
-        endPosition = startPosition + new Vector2(0, 3*16);
+        //endPosition = startPosition + new Vector2(3*16, 3*16);
+        endPosition = endPoint.GlobalPosition;
+        GD.Print(startPosition);
+        GD.Print(endPosition);
 	}
 
     private void ChangeDirection() {
@@ -30,8 +36,7 @@ public partial class Slime : CharacterBody2D
     {
         Vector2 moveDirection = endPosition - Position;
         if (moveDirection.Length() < limit) {
-            Position = endPosition;
-            //moveDirection = new Vector2(0, 0);
+            //Position = endPosition;
             ChangeDirection();
         }
         Velocity = moveDirection.Normalized() * speed;
@@ -39,9 +44,16 @@ public partial class Slime : CharacterBody2D
     private void UpdateAnimation()
     {
         String animationString = "walk_up";
-        if (Velocity.Y > 0) {
-            animationString = "walk_down";
-        }
+
+        if (Velocity.X != 0) {
+			animationString = "walk_left";
+			animations.FlipV = false;
+			animations.FlipH = Velocity.X > 0;
+		} else if (Velocity.Y < 0) {
+			animationString = "walk_up";
+		} else if (Velocity.Y > 0) {
+			animationString = "walk_down";
+		}
 
         animations.Play(animationString);
     }
