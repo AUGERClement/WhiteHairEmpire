@@ -85,7 +85,7 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vqvhs"]
-size = Vector2(20, 7)
+size = Vector2(20, 12.5)
 
 [node name="Player" type="CharacterBody2D"]
 z_index = 1
@@ -101,5 +101,5 @@ animation = &"walk_up"
 offset = Vector2(0, -8)
 
 [node name="MoveCollidor" type="CollisionShape2D" parent="."]
-position = Vector2(0, 4)
+position = Vector2(0, 1.25)
 shape = SubResource("RectangleShape2D_vqvhs")
