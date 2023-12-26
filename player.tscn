@@ -134,3 +134,5 @@ collision_mask = 3
 [node name="CollisionShape2D" type="CollisionShape2D" parent="hurtBox"]
 position = Vector2(0, -6.5)
 shape = SubResource("CapsuleShape2D_5h2dm")
+
+[connection signal="area_entered" from="hurtBox" to="." method="OnHurtBoxAreaEntered"]

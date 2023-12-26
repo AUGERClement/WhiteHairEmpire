@@ -3,8 +3,8 @@ using Godot;
 
 public partial class Player : CharacterBody2D
 {
-	[Signal]
-	public delegate void HitEventHandler(int dmg = 1);
+	//[Signal]
+	//public delegate void HitEventHandler(int dmg = 1);
 
 	[Export]
     public int Speed { get; set; } = 400; // How fast the player will move (pixels/sec).
@@ -87,11 +87,19 @@ public partial class Player : CharacterBody2D
 		}
     }
 
+	/*
 	private void OnBodyEntered(Node2D body)
 	{
 		Hide(); // Player disappears after being hit.
 		EmitSignal(SignalName.Hit);
 		// Must be deferred as we can't change physics properties on a physics callback.
 		GetNode<CollisionShape2D>("CollisionShape2D").SetDeferred(CollisionShape2D.PropertyName.Disabled, true);
+	}
+	*/
+
+	private void OnHurtBoxAreaEntered(Area2D area) {
+		if (area.Name == "HitBox") {
+			GD.Print("I'm HIT");
+		}
 	}
 }
