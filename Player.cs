@@ -1,3 +1,4 @@
+using System;
 using Godot;
 
 public partial class Player : CharacterBody2D
@@ -11,16 +12,25 @@ public partial class Player : CharacterBody2D
     public Vector2 ScreenSize; // Size of the game window.
 
 	private Vector2 _targetVelocity;
+	private AnimationPlayer animations;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
 		ScreenSize = GetViewportRect().Size;
-		//Hide();
+		animations = GetNode<AnimationPlayer>("AnimationPlayer");
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _PhysicsProcess(double delta)
+	{
+		HandleInput();
+		HandleCollision();
+		MoveAndSlide();
+		UpdateAnimation();
+	}
+
+	private void HandleInput()
 	{
 		var direction = Vector2.Zero; // The player's movement vector.
 
@@ -37,48 +47,45 @@ public partial class Player : CharacterBody2D
 			direction.Y -= 1;
 		}
 
-    	var animatedSprite2D = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
+		direction = direction.Normalized() * Speed;
 
-		if (direction.Length() > 0)
-		{
-			direction = direction.Normalized() * Speed;
-			animatedSprite2D.Play();
-		}
-		else
-		{
-			animatedSprite2D.Stop();
-		}
-
-		/*
-		Position += direction * (float)delta;
-		Position = new Vector2(
-			x: Mathf.Clamp(Position.X, 0, ScreenSize.X),
-			y: Mathf.Clamp(Position.Y, 0, ScreenSize.Y)
-		);
-		*/
 		_targetVelocity.X = direction.X;// * (float)delta;
 		_targetVelocity.Y = direction.Y;// * (float)delta;
 
 		Velocity = _targetVelocity;
-		MoveAndSlide();
+	}
 
-		if (direction.X != 0) {
-			animatedSprite2D.Animation = "walk_left";
-			animatedSprite2D.FlipV = false;
-			animatedSprite2D.FlipH = direction.X > 0;
-		} else if (direction.Y < 0) {
-			animatedSprite2D.Animation = "walk_up";
-		} else if (direction.Y > 0) {
-			animatedSprite2D.Animation = "walk_down";
+	private void HandleCollision()
+	{
+		for (int i = 0; i < GetSlideCollisionCount(); i++) {
+			KinematicCollision2D collision = GetSlideCollision(i);
+			GD.Print("I collided with ", ((Node)collision.GetCollider()).Name);
 		}
 	}
 
-	public void Start(Vector2 position)
-	{
-		Position = position;
-		Show();
-		GetNode<CollisionShape2D>("CollisionShape2D").Disabled = false;
-	}
+	private void UpdateAnimation()
+    {
+        String animationString = "walk_up";
+
+        if (Velocity.X < 0) {
+			animationString = "walk_left";
+		} else if (Velocity.X > 0) {
+			animationString = "walk_right";
+		} else if (Velocity.Y < 0) {
+			animationString = "walk_up";
+		} else if (Velocity.Y > 0) {
+			animationString = "walk_down";
+		}
+		
+		if (Velocity.Length() > 0)
+		{
+			animations.Play(animationString);
+		}
+		else
+		{
+			animations.Stop();
+		}
+    }
 
 	private void OnBodyEntered(Node2D body)
 	{

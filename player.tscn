@@ -1,7 +1,103 @@
-[gd_scene load_steps=14 format=3 uid="uid://dro6midsii0xl"]
+[gd_scene load_steps=21 format=3 uid="uid://dro6midsii0xl"]
 
 [ext_resource type="Texture2D" uid="uid://r0w76ros6jy7" path="res://art/MGQ/Main01_cip.png" id="1_21ghq"]
 [ext_resource type="Script" path="res://Player.cs" id="1_864al"]
+
+[sub_resource type="Animation" id="Animation_rtd67"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [Vector2i(1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_4bt8q"]
+resource_name = "walk_down"
+length = 0.6
+loop_mode = 1
+step = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [Vector2i(0, 0), Vector2i(1, 0), Vector2i(2, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_r1sqc"]
+resource_name = "walk_up"
+length = 0.6
+loop_mode = 1
+step = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [Vector2i(0, 3), Vector2i(1, 3), Vector2i(2, 3)]
+}
+
+[sub_resource type="Animation" id="Animation_dpxe8"]
+resource_name = "walk_left"
+length = 0.6
+loop_mode = 1
+step = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [Vector2i(0, 1), Vector2i(1, 1), Vector2i(2, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_cwkto"]
+resource_name = "walk_right"
+length = 0.6
+loop_mode = 1
+step = 0.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame_coords")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 1,
+"values": [Vector2i(0, 2), Vector2i(1, 2), Vector2i(2, 2)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_i77be"]
+_data = {
+"RESET": SubResource("Animation_rtd67"),
+"walk_down": SubResource("Animation_4bt8q"),
+"walk_left": SubResource("Animation_dpxe8"),
+"walk_right": SubResource("Animation_cwkto"),
+"walk_up": SubResource("Animation_r1sqc")
+}
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_lc21g"]
 atlas = ExtResource("1_21ghq")
@@ -87,6 +183,8 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vqvhs"]
 size = Vector2(20, 12.5)
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_5h2dm"]
+
 [node name="Player" type="CharacterBody2D"]
 z_index = 1
 y_sort_enabled = true
@@ -95,11 +193,31 @@ position = Vector2(0, -8)
 script = ExtResource("1_864al")
 metadata/_edit_group_ = true
 
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0, -8)
+texture = ExtResource("1_21ghq")
+hframes = 12
+vframes = 8
+frame = 1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_i77be")
+}
+
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+visible = false
 sprite_frames = SubResource("SpriteFrames_l6oln")
-animation = &"walk_up"
+animation = &"walk_down"
 offset = Vector2(0, -8)
 
 [node name="MoveCollidor" type="CollisionShape2D" parent="."]
 position = Vector2(0, 1.25)
 shape = SubResource("RectangleShape2D_vqvhs")
+
+[node name="hurtBox" type="Area2D" parent="."]
+collision_mask = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="hurtBox"]
+position = Vector2(0, -6.5)
+shape = SubResource("CapsuleShape2D_5h2dm")
