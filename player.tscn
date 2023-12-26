@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://dro6midsii0xl"]
+[gd_scene load_steps=11 format=3 uid="uid://dro6midsii0xl"]
 
 [ext_resource type="Texture2D" uid="uid://r0w76ros6jy7" path="res://art/MGQ/Main01_cip.png" id="1_21ghq"]
 [ext_resource type="Script" path="res://Player.cs" id="1_864al"]
@@ -99,87 +99,6 @@ _data = {
 "walk_up": SubResource("Animation_r1sqc")
 }
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_lc21g"]
-atlas = ExtResource("1_21ghq")
-region = Rect2(0, 0, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_7x5jb"]
-atlas = ExtResource("1_21ghq")
-region = Rect2(32, 0, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_b3513"]
-atlas = ExtResource("1_21ghq")
-region = Rect2(64, 0, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_gorhr"]
-atlas = ExtResource("1_21ghq")
-region = Rect2(0, 32, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_8iqt4"]
-atlas = ExtResource("1_21ghq")
-region = Rect2(32, 32, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_qagpj"]
-atlas = ExtResource("1_21ghq")
-region = Rect2(64, 32, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_r08ln"]
-atlas = ExtResource("1_21ghq")
-region = Rect2(0, 96, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_2lf6k"]
-atlas = ExtResource("1_21ghq")
-region = Rect2(32, 96, 32, 32)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_w7c3u"]
-atlas = ExtResource("1_21ghq")
-region = Rect2(64, 96, 32, 32)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_l6oln"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_lc21g")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_7x5jb")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_b3513")
-}],
-"loop": true,
-"name": &"walk_down",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_gorhr")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_8iqt4")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_qagpj")
-}],
-"loop": true,
-"name": &"walk_left",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_r08ln")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_2lf6k")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_w7c3u")
-}],
-"loop": true,
-"name": &"walk_up",
-"speed": 5.0
-}]
-
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_vqvhs"]
 size = Vector2(20, 12.5)
 
@@ -204,12 +123,6 @@ frame = 1
 libraries = {
 "": SubResource("AnimationLibrary_i77be")
 }
-
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
-visible = false
-sprite_frames = SubResource("SpriteFrames_l6oln")
-animation = &"walk_down"
-offset = Vector2(0, -8)
 
 [node name="MoveCollidor" type="CollisionShape2D" parent="."]
 position = Vector2(0, 1.25)
