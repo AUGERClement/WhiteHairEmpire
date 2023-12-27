@@ -2803,11 +2803,13 @@ layer_3/tile_data = PackedInt32Array(-1310736, 524289, 12, -1310735, 524289, 12,
 [node name="Player" parent="TileMap" instance=ExtResource("1_rvre1")]
 position = Vector2(243, 110.5)
 Speed = 200
+knockBackPower = 20
 
 [node name="FollowCamera" type="Camera2D" parent="TileMap/Player" node_paths=PackedStringArray("tileMap")]
 zoom = Vector2(2, 2)
 limit_left = 0
 limit_top = 0
+position_smoothing_enabled = true
 script = ExtResource("5_nrdww")
 tileMap = NodePath("../..")
 

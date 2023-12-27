@@ -19,6 +19,9 @@ public partial class Player : CharacterBody2D
 	[Export]
 	public int maxHealth = 3;
 
+	[Export]
+	public int knockBackPower = 25;
+
     public Vector2 ScreenSize; // Size of the game window.
 
 	private Vector2 _targetVelocity;
@@ -121,10 +124,19 @@ public partial class Player : CharacterBody2D
 
 	private void OnHurtBoxAreaEntered(Area2D area) {
 		GD.Print("current health = ", currentHealth);
-		if (area.Name == "HitBox") {
+		if (area.Name == "HitBox") { // Touched by hostile
 			computeDamage(1);
 			GD.Print("I'm HIT by ", area.GetParent().Name, " and now have ", currentHealth, " hp");
 			EmitSignal(SignalName.HealthChanged);
+			KnockBack(area.GetParent<Slime>().Velocity);
 		}
+	}
+
+	private void KnockBack(Vector2 enemyVelocity)
+	{
+		Vector2 knockBackDirection = (enemyVelocity -Velocity).Normalized() * knockBackPower * 100; //Adjusting factor
+
+		Velocity = knockBackDirection;
+		MoveAndSlide();
 	}
 }
