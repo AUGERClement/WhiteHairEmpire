@@ -11,5 +11,6 @@ public partial class World : Node2D
         player = GetNode<Player>("TileMap/Player");
 
         heartsContainer.SetMaxHearts(player.maxHealth);
+        heartsContainer.UpdateHearts(1);
     }
 }
