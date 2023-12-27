@@ -9,16 +9,21 @@ public partial class Player : CharacterBody2D
 	[Export]
     public int Speed { get; set; } = 400; // How fast the player will move (pixels/sec).
 
+	[Export]
+	public int maxHealth = 3;
+
     public Vector2 ScreenSize; // Size of the game window.
 
 	private Vector2 _targetVelocity;
 	private AnimationPlayer animations;
+	private int currentHealth;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
 		ScreenSize = GetViewportRect().Size;
 		animations = GetNode<AnimationPlayer>("AnimationPlayer");
+		currentHealth = maxHealth;
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -87,19 +92,26 @@ public partial class Player : CharacterBody2D
 		}
     }
 
-	/*
-	private void OnBodyEntered(Node2D body)
-	{
-		Hide(); // Player disappears after being hit.
-		EmitSignal(SignalName.Hit);
-		// Must be deferred as we can't change physics properties on a physics callback.
-		GetNode<CollisionShape2D>("CollisionShape2D").SetDeferred(CollisionShape2D.PropertyName.Disabled, true);
+	private void computeHeal(int heal) {
+		currentHealth += heal;
+		if (currentHealth >= maxHealth) {
+			currentHealth = maxHealth;
+		}
 	}
-	*/
+
+	private void computeDamage(int damage) {
+		currentHealth -= damage;
+		if (currentHealth <= 0) {
+			currentHealth = 0;
+			//GameOver;
+		}
+	}
 
 	private void OnHurtBoxAreaEntered(Area2D area) {
+		GD.Print("current health = ", currentHealth);
 		if (area.Name == "HitBox") {
-			GD.Print("I'm HIT");
+			computeDamage(1);
+			GD.Print("I'm HIT by ", area.GetParent().Name, " and now have ", currentHealth, " hp");
 		}
 	}
 }
