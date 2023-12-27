@@ -26,6 +26,8 @@ public partial class Player : CharacterBody2D
 
 	private Vector2 _targetVelocity;
 	private AnimationPlayer animations;
+	private AnimationPlayer effects;
+	private Timer hurtTimer;
 	private int currentHealth;
 
 	// Called when the node enters the scene tree for the first time.
@@ -33,7 +35,10 @@ public partial class Player : CharacterBody2D
 	{
 		ScreenSize = GetViewportRect().Size;
 		animations = GetNode<AnimationPlayer>("AnimationPlayer");
+		effects = GetNode<AnimationPlayer>("Effects");
+		hurtTimer = GetNode<Timer>("hurtTimer");
 		currentHealth = maxHealth;
+		effects.Play("RESET");
 	}
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -122,13 +127,17 @@ public partial class Player : CharacterBody2D
 		}
 	}
 
-	private void OnHurtBoxAreaEntered(Area2D area) {
+	private async void OnHurtBoxAreaEntered(Area2D area) {
 		GD.Print("current health = ", currentHealth);
 		if (area.Name == "HitBox") { // Touched by hostile
 			computeDamage(1);
 			GD.Print("I'm HIT by ", area.GetParent().Name, " and now have ", currentHealth, " hp");
 			EmitSignal(SignalName.HealthChanged);
 			KnockBack(area.GetParent<Slime>().Velocity);
+			effects.Play("hurt_blink");
+			hurtTimer.Start();
+			await ToSignal(hurtTimer, "timeout");
+			effects.Play("RESET");
 		}
 	}
 

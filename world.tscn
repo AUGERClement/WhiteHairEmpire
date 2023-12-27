@@ -2809,7 +2809,6 @@ knockBackPower = 20
 zoom = Vector2(2, 2)
 limit_left = 0
 limit_top = 0
-position_smoothing_enabled = true
 script = ExtResource("5_nrdww")
 tileMap = NodePath("../..")
 
