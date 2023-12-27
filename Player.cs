@@ -3,8 +3,15 @@ using Godot;
 
 public partial class Player : CharacterBody2D
 {
-	//[Signal]
-	//public delegate void HitEventHandler(int dmg = 1);
+	/*
+	[Signal]
+	public delegate void HitEventHandler(int dmg = 1);
+
+	[Signal]
+	public delegate void HealEventHandler(int heal = 1);
+	*/
+	[Signal]
+	public delegate void HealthChangedEventHandler();
 
 	[Export]
     public int Speed { get; set; } = 400; // How fast the player will move (pixels/sec).
@@ -92,6 +99,11 @@ public partial class Player : CharacterBody2D
 		}
     }
 
+	public int getCurrentHealth()
+	{
+		return currentHealth;
+	}
+
 	private void computeHeal(int heal) {
 		currentHealth += heal;
 		if (currentHealth >= maxHealth) {
@@ -112,6 +124,7 @@ public partial class Player : CharacterBody2D
 		if (area.Name == "HitBox") {
 			computeDamage(1);
 			GD.Print("I'm HIT by ", area.GetParent().Name, " and now have ", currentHealth, " hp");
+			EmitSignal(SignalName.HealthChanged);
 		}
 	}
 }
