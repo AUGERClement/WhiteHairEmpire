@@ -1,14 +1,15 @@
 using Godot;
-using System;
 
 public partial class World : Node2D
 {
     private HeartsContainer heartsContainer;
+    private Player player;
 
     public override void _Ready()
     {
         heartsContainer = GetNode<HeartsContainer>("CanvasLayer/heartsContainer");
+        player = GetNode<Player>("TileMap/Player");
 
-        heartsContainer.SetMaxHearts(3);
+        heartsContainer.SetMaxHearts(player.maxHealth);
     }
 }
