@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using Godot;
 
 public partial class Player : CharacterBody2D
@@ -29,6 +31,8 @@ public partial class Player : CharacterBody2D
 	private AnimationPlayer effects;
 	private Timer hurtTimer;
 	private int currentHealth;
+	private bool isHurt = false;
+	private List<Area2D> enemyCollisions;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -37,6 +41,8 @@ public partial class Player : CharacterBody2D
 		animations = GetNode<AnimationPlayer>("AnimationPlayer");
 		effects = GetNode<AnimationPlayer>("Effects");
 		hurtTimer = GetNode<Timer>("hurtTimer");
+
+		enemyCollisions = new List<Area2D>();
 		currentHealth = maxHealth;
 		effects.Play("RESET");
 	}
@@ -48,6 +54,11 @@ public partial class Player : CharacterBody2D
 		HandleCollision();
 		MoveAndSlide();
 		UpdateAnimation();
+		if (!isHurt) {
+			foreach (Area2D enemyArea in enemyCollisions) {
+				HurtByEnemy(enemyArea);
+			}
+		}
 	}
 
 	private void HandleInput()
@@ -97,17 +108,14 @@ public partial class Player : CharacterBody2D
 			animationString = "walk_down";
 		}
 		
-		if (Velocity.Length() > 0)
-		{
+		if (Velocity.Length() > 0) {
 			animations.Play(animationString);
-		}
-		else
-		{
+		} else {
 			animations.Stop();
 		}
     }
 
-	public int getCurrentHealth()
+	public int GetCurrentHealth()
 	{
 		return currentHealth;
 	}
@@ -127,18 +135,29 @@ public partial class Player : CharacterBody2D
 		}
 	}
 
-	private async void OnHurtBoxAreaEntered(Area2D area) {
-		GD.Print("current health = ", currentHealth);
+	private async void HurtByEnemy(Area2D area)
+	{
+		computeDamage(1);
+		GD.Print("I'm HIT by ", area.GetParent().Name, " and now have ", currentHealth, " hp");
+		EmitSignal(SignalName.HealthChanged);
+		isHurt = true;
+		KnockBack(area.GetParent<Slime>().Velocity);
+		effects.Play("hurt_blink");
+		hurtTimer.Start();
+		await ToSignal(hurtTimer, "timeout");
+		effects.Play("RESET");
+		isHurt = false;
+	}
+
+	private void OnHurtBoxAreaEntered(Area2D area) {
 		if (area.Name == "HitBox") { // Touched by hostile
-			computeDamage(1);
-			GD.Print("I'm HIT by ", area.GetParent().Name, " and now have ", currentHealth, " hp");
-			EmitSignal(SignalName.HealthChanged);
-			KnockBack(area.GetParent<Slime>().Velocity);
-			effects.Play("hurt_blink");
-			hurtTimer.Start();
-			await ToSignal(hurtTimer, "timeout");
-			effects.Play("RESET");
+			enemyCollisions = enemyCollisions.Append<Area2D>(area).ToList();
 		}
+	}
+
+	private void OnHurtBoxAreaExited(Area2D area)
+	{
+		enemyCollisions.Remove(area);
 	}
 
 	private void KnockBack(Vector2 enemyVelocity)

@@ -11,11 +11,11 @@ public partial class World : Node2D
         player = GetNode<Player>("TileMap/Player");
 
         heartsContainer.SetMaxHearts(player.maxHealth);
-        heartsContainer.UpdateHearts(player.getCurrentHealth());
+        heartsContainer.UpdateHearts(player.GetCurrentHealth());
     }
 
     private void OnPlayerHealthChanged()
     {
-        heartsContainer.UpdateHearts(player.getCurrentHealth());
+        heartsContainer.UpdateHearts(player.GetCurrentHealth());
     }
 }

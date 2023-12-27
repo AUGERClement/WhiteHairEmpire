@@ -191,3 +191,4 @@ libraries = {
 wait_time = 0.6
 
 [connection signal="area_entered" from="hurtBox" to="." method="OnHurtBoxAreaEntered"]
+[connection signal="area_exited" from="hurtBox" to="." method="OnHurtBoxAreaExited"]
