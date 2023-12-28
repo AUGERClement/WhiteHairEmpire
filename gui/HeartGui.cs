@@ -8,11 +8,7 @@ public partial class HeartGui : Panel
     {
         sprite = GetNode<Sprite2D>("Sprite");
     }
-    public void Update(bool whole) {
-        if (whole) {
-            sprite.Frame = 0;
-        } else {
-            sprite.Frame = 4;
-        }
+    public void Update(int hp) {
+        sprite.Frame = 4 - hp; // If 1 hp, frame 3 is needed.
     }
 }

@@ -19,7 +19,7 @@ public partial class Player : CharacterBody2D
     public int Speed { get; set; } = 400; // How fast the player will move (pixels/sec).
 
 	[Export]
-	public int maxHealth = 3;
+	public int maxHealth = 4;
 
 	[Export]
 	public int knockBackPower = 25;

@@ -11,16 +11,22 @@ public partial class HeartsContainer : HBoxContainer
         heartGuiClass = GD.Load<PackedScene>("res://gui/heart_gui.tscn");
     }
 
-    public void SetMaxHearts(int max)
+    public void SetMaxHearts(int max) // Second version with quarters hearts;
     {
-        for (int i = 0; i < max; i++) {
+        int unfilledHeart = (max % 4) != 0 ? 1 : 0;
+        int hearts = max / 4 + unfilledHeart;
+        GD.Print("Max = ", max, " so Number hearts = ", hearts);
+
+        for (int i = 0; i < hearts; i++) {
             var heart = heartGuiClass.Instantiate();
             AddChild(heart);
         }
+
     }
 
     public void UpdateHearts(int currentHealth)
     {
+        int i = 0;
         //My first LINQ in C#, banger
         //https://www.reddit.com/r/godot/comments/ca73t1/get_all_children_nodes_of_type_in_c/
         var hearts = GetChildren()
@@ -29,18 +35,16 @@ public partial class HeartsContainer : HBoxContainer
                         .Cast<HeartGui>()
                         .ToArray();
 
-        for (int i = 0; i < currentHealth; i++) {
-            hearts[i].Update(true);
-        }
-        
-        for (int i = currentHealth; i < hearts.Length; i++) {
-            hearts[i].Update(false);
+        for (; i < currentHealth / 4; i++) { //Fill hearts
+            hearts[i].Update(4);
         }
 
-        /*
-        for (int i = hearts.Length -1; i > 0; i--) {
-            hearts[i].Update(false);
+        
+        if (currentHealth % 4 != 0) { // Last heart partly filled
+            hearts[i].Update(currentHealth % 4);
+        } else {
+            hearts[i].Update(0);
         }
-        */
     }
+    
 }
