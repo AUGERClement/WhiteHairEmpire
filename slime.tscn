@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://cu1dnkioxi4ru"]
+[gd_scene load_steps=12 format=3 uid="uid://cu1dnkioxi4ru"]
 
 [ext_resource type="Script" path="res://Slime.cs" id="1_oqsp1"]
 [ext_resource type="Texture2D" uid="uid://qb0x2qj2p3sh" path="res://art/Ninja Adventure/Actor/Monsters/Slime/Slime.png" id="1_wnn4n"]
@@ -227,6 +227,9 @@ _data = {
 radius = 5.71429
 height = 17.1429
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_1eola"]
+radius = 59.0
+
 [node name="Slime" type="CharacterBody2D"]
 z_index = 1
 collision_layer = 2
@@ -258,3 +261,12 @@ libraries = {
 position = Vector2(0, -5)
 rotation = 1.5708
 shape = SubResource("CapsuleShape2D_rsoyq")
+
+[node name="DetectionBox" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DetectionBox"]
+position = Vector2(0, -5)
+shape = SubResource("CircleShape2D_1eola")
+
+[connection signal="body_entered" from="DetectionBox" to="." method="OnDetectionBoxBodyEntered"]
+[connection signal="body_exited" from="DetectionBox" to="." method="OnDetectionBoxBodyExited"]

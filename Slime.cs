@@ -14,6 +14,8 @@ public partial class Slime : CharacterBody2D
 
     private Vector2 startPosition;
     private Vector2 endPosition;
+    private bool playerDetected = false;
+    private Node2D player;
 
 	public override void _Ready()
 	{
@@ -31,6 +33,13 @@ public partial class Slime : CharacterBody2D
 
        endPosition = startPosition;
        startPosition = tmpEnd;
+    }
+
+    private void MoveTowardPlayer()
+    {
+        Vector2 moveDirection = player.Position - Position;
+
+        Velocity = moveDirection.Normalized() * speed;
     }
 
     private void UpdateVelocity()
@@ -65,11 +74,28 @@ public partial class Slime : CharacterBody2D
 			animations.Stop();
 		}
     }
-
     public override void _PhysicsProcess(double delta)
     {
-        UpdateVelocity();
+        if (playerDetected) { 
+            MoveTowardPlayer();
+        } else {
+            UpdateVelocity(); // Move toward dest
+        }
         MoveAndSlide();
         UpdateAnimation();
     }
+
+    private void OnDetectionBoxBodyEntered(Node2D body) {
+		if (body.Name == "Player") { // Player detected
+            playerDetected = true;
+			player = body;
+		}
+	}
+
+    private void OnDetectionBoxBodyExited(Node2D body) {
+		if (body.Name == "Player") { // Player exited detection zone
+            playerDetected = false;
+			player = null; //May be unneded but reset just in case
+		}
+	}
 }
