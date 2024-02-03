@@ -65,12 +65,9 @@ public partial class Slime : CharacterBody2D
 			animationString = "walk_down";
 		}
 		
-		if (Velocity.Length() > 0)
-		{
+		if (Velocity.Length() > 0) {
 			animations.Play(animationString);
-		}
-		else
-		{
+		} else {
 			animations.Stop();
 		}
     }

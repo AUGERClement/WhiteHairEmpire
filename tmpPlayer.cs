@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Godot;
 
-public partial class Player : CharacterBody2D
+public partial class tmpPlayer : CharacterBody2D
 {
 	/*
 	[Signal]
@@ -36,8 +36,6 @@ public partial class Player : CharacterBody2D
 	private PackedScene weaponScene;
 	private String direction = "up"; // Current direction player is looking
 
-	private Node weapon;
-
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
 	{
@@ -47,8 +45,6 @@ public partial class Player : CharacterBody2D
 		effects = GetNode<AnimationPlayer>("Effects");
 		hurtTimer = GetNode<Timer>("hurtTimer");
 		weaponScene = GD.Load<PackedScene>($"res://weapons/{equipped}.tscn");
-		weapon = weaponScene.Instantiate<Node>();
-		AddChild(weapon);
 
 		enemyCollisions = new List<Area2D>();
 		currentHealth = maxHealth;
@@ -97,11 +93,12 @@ public partial class Player : CharacterBody2D
 
 	private void HandleAttack()
 	{
-		IWeapon weap = (IWeapon)weapon;
+		Sword weapon;
 
 		if (Input.IsActionPressed("attack")) {
 			GD.Print("triggered attack in direction ", direction);
-			weap.Attack();
+			weapon = weaponScene.Instantiate<Sword>();
+			weapon.Attack();
 			//weapon.Dispose();
 		}
 	}
