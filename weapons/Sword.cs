@@ -1,3 +1,4 @@
+using System;
 using Godot;
 
 public partial class Sword : Area2D, IWeapon
@@ -9,11 +10,11 @@ public partial class Sword : Area2D, IWeapon
         animations = GetNode<AnimationPlayer>("AnimationPlayer");
     }
 
-    public void Attack()
+    public void Attack(string direction = "up")
     {
-        GD.Print("Sword attack triggered");
-        GD.Print(animations);
-        animations.Play("attack_up");
-        Dispose();
+        GD.Print("Sword attack triggered in direction, ", direction);
+        //GD.Print(animations);
+        animations.Play("attack_" + direction);
+        //Dispose();
     }
 }

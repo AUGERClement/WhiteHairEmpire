@@ -101,7 +101,7 @@ public partial class Player : CharacterBody2D
 
 		if (Input.IsActionPressed("attack")) {
 			GD.Print("triggered attack in direction ", direction);
-			weap.Attack();
+			weap.Attack(direction);
 			//weapon.Dispose();
 		}
 	}

@@ -2,5 +2,5 @@ using Godot;
 
 interface IWeapon
 {
-    public void Attack();
+    public void Attack(string direction = "up");
 }
