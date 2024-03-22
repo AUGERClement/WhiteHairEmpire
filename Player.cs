@@ -25,6 +25,7 @@ public partial class Player : CharacterBody2D
 	public int knockBackPower = 25;
 
     public Vector2 ScreenSize; // Size of the game window.
+	public int w_range = 10; // Range of the weapons
 
 	private Vector2 _targetVelocity;
 	private AnimationPlayer animations;
@@ -36,7 +37,7 @@ public partial class Player : CharacterBody2D
 	private PackedScene weaponScene;
 	private String direction = "up"; // Current direction player is looking
 
-	private Node weapon;
+	private Area2D weapon;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -47,7 +48,7 @@ public partial class Player : CharacterBody2D
 		effects = GetNode<AnimationPlayer>("Effects");
 		hurtTimer = GetNode<Timer>("hurtTimer");
 		weaponScene = GD.Load<PackedScene>($"res://weapons/{equipped}.tscn");
-		weapon = weaponScene.Instantiate<Node>();
+		weapon = weaponScene.Instantiate<Area2D>();
 		AddChild(weapon);
 
 		enemyCollisions = new List<Area2D>();
@@ -76,15 +77,19 @@ public partial class Player : CharacterBody2D
 
 		if (Input.IsActionPressed("move_right")) {
 			direction.X += 1;
+			//weapon.Position = new Vector2(w_range, 0);
 		}
 		if (Input.IsActionPressed("move_left")) {
 			direction.X -= 1;
+			//weapon.Position = new Vector2(-w_range, 0);
 		}
 		if (Input.IsActionPressed("move_down")) {
 			direction.Y += 1;
+			//weapon.Position = new Vector2(0, -w_range);
 		}
 		if (Input.IsActionPressed("move_up")) {
 			direction.Y -= 1;
+			//weapon.Position = new Vector2(0, w_range);
 		}
 
 		direction = direction.Normalized() * Speed;
@@ -101,7 +106,8 @@ public partial class Player : CharacterBody2D
 
 		if (Input.IsActionPressed("attack")) {
 			GD.Print("triggered attack in direction ", direction);
-			weap.Attack(direction);
+			GD.Print("Weapon is in ", weapon.Position);
+			weap.Attack(direction, w_range);
 			//weapon.Dispose();
 		}
 	}
